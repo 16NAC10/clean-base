@@ -6,6 +6,8 @@ import curso.modelo.Curso;
 import curso.output.BuscarCursoPorIdRepository;
 import curso.output.CrearCursoRepository;
 
+import java.util.UUID;
+
 public class CrearCursoUseCase implements CrearCursoInput {
     private CrearCursoRepository crearCursoRepository;
     private BuscarCursoPorIdRepository buscarCursoPorIdRepository;
@@ -16,7 +18,7 @@ public class CrearCursoUseCase implements CrearCursoInput {
     }
 
     @Override
-    public Integer crearCurso(CrearCursoRequestModel crearCursoRequestModel) throws CursoExisteException {
+    public UUID crearCurso(CrearCursoRequestModel crearCursoRequestModel) throws CursoExisteException {
         if(crearCursoRepository.buscarCurso(crearCursoRequestModel.getId())){
             throw new CursoExisteException("El curso ya existe");
         }
