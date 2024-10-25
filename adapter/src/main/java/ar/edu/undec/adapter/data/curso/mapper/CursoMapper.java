@@ -8,6 +8,6 @@ public class CursoMapper {
         return Curso.factory(cursoEntidad.getId(), cursoEntidad.getNombre(), cursoEntidad.getFechaCierreInscripcion(),cursoEntidad.getNivel());
     }
     public static CursoEntidad coreDataMapper(Curso curso){
-        return new CursoEntidad(null, curso.getNombre(), curso.getFechaCierreInscripcion(), curso.getNivel());
+        return new CursoEntidad(curso.getId(), curso.getNombre(), curso.getFechaCierreInscripcion(), curso.getNivel());
     }
 }
