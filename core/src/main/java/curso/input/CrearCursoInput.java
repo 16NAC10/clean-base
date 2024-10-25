@@ -6,5 +6,5 @@ import curso.usecase.crearcursousecase.CrearCursoRequestModel;
 import java.util.UUID;
 
 public interface CrearCursoInput {
-    Integer crearCurso(CrearCursoRequestModel curso) throws CursoExisteException;
+    UUID crearCurso(CrearCursoRequestModel curso) throws CursoExisteException;
 }

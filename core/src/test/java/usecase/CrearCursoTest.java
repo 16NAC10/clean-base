@@ -39,8 +39,8 @@ public class CrearCursoTest {
     void crearCurso_CursoNoExiste_crearCurso() {
         CrearCursoRequestModel curso = CrearCursoRequestModel.factory(cursoId, "Programación", LocalDate.MAX, CursoNivel.MEDIO);
         when(crearCursoRepository.buscarCurso(cursoId)).thenReturn(false);
-        when(crearCursoRepository.crearCurso(any(Curso.class))).thenReturn(1);
-        Assertions.assertEquals(1, crearCursoInput.crearCurso(curso));
+        when(crearCursoRepository.crearCurso(any(Curso.class))).thenReturn(cursoId);
+        Assertions.assertEquals(cursoId, crearCursoInput.crearCurso(curso));
     }
 
     @Test
