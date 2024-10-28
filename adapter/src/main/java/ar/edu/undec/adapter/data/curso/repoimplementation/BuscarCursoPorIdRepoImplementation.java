@@ -8,15 +8,15 @@ import curso.output.BuscarCursoPorIdRepository;
 import java.util.UUID;
 
 public class BuscarCursoPorIdRepoImplementation implements BuscarCursoPorIdRepository {
-    BuscarCursoPorIdCrud buscarCursoPorId;
+    BuscarCursoPorIdCrud buscarCursoPorIdCrud;
 
-    public BuscarCursoPorIdRepoImplementation(BuscarCursoPorIdCrud buscarCursoPorId) {
-        this.buscarCursoPorId = buscarCursoPorId;
+    public BuscarCursoPorIdRepoImplementation(BuscarCursoPorIdCrud buscarCursoPorIdCrud) {
+        this.buscarCursoPorIdCrud = buscarCursoPorIdCrud;
     }
 
     @Override
     public Curso buscarCursoPorId(UUID id) {
-        CursoEntidad cursoEntidad = buscarCursoPorId.buscarPorId(id).get();
+        CursoEntidad cursoEntidad = buscarCursoPorIdCrud.buscarPorId(id).get();
         return CursoMapper.dataCoreMapper(cursoEntidad);
     }
 }

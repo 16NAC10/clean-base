@@ -2,10 +2,9 @@ package ar.edu.undec.adapter.data.curso.model;
 
 import java.time.LocalDate;
 import java.util.UUID;
-
 import curso.modelo.CursoNivel;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity(name = "cursos")
 public class CursoEntidad {

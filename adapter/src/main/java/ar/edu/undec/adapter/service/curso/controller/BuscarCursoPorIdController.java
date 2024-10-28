@@ -15,10 +15,11 @@ import java.util.UUID;
 @RestController
 @RequestMapping("cursos")
 public class BuscarCursoPorIdController {
-    BuscarCursoPorIdInput buscarCursoPorIdInput;
+
+    private BuscarCursoPorIdInput buscarCursoPorIdInput;
 
     @Autowired
-    public BuscarCursoPorIdController (BuscarCursoPorIdInput buscarCursoPorIdInput){
+    public BuscarCursoPorIdController(BuscarCursoPorIdInput buscarCursoPorIdInput) {
         this.buscarCursoPorIdInput = buscarCursoPorIdInput;
     }
 
@@ -29,7 +30,8 @@ public class BuscarCursoPorIdController {
             CursoDto cursoDto = CursoDto.factory(curso.getId(), curso.getNombre(), curso.getFechaCierreInscripcion(), curso.getNivel());
             return ResponseEntity.ok(cursoDto);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.noContent().build();
         }
     }
 }
+

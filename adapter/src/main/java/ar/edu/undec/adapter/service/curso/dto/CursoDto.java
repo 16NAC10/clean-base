@@ -23,4 +23,20 @@ public class CursoDto {
     public static CursoDto factory(UUID id, String nombre, LocalDate fechaCierreInscripcion, CursoNivel nivel) {
         return new CursoDto(id, nombre, fechaCierreInscripcion, nivel);
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public LocalDate getFechaCierreInscripcion() {
+        return fechaCierreInscripcion;
+    }
+
+    public CursoNivel getNivel() {
+        return nivel;
+    }
 }
