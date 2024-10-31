@@ -1,14 +1,19 @@
 package ar.edu.undec.adapter.service.curso.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import curso.modelo.CursoNivel;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class CursoDto {
+    @JsonProperty("id")
     private UUID id;
+    @JsonProperty("nombre")
     private String nombre;
+    @JsonProperty("fecha_cierre_inscripcion")
     private LocalDate fechaCierreInscripcion;
+    @JsonProperty("nivel")
     private CursoNivel nivel;
 
     public CursoDto() {}
