@@ -27,12 +27,12 @@ public class CrearCursoController {
         try{
             UUID id = crearCursoInput.crearCurso(crearCursoRequestModel);
             if(id != null){
-                return ResponseEntity.ok().build();
+                return ResponseEntity.created(null).body(id);
             }else{
                 return ResponseEntity.badRequest().build();
             }
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("El curso ya existe");
         }
     }
 }
