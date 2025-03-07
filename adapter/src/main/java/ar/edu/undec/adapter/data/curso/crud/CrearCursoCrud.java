@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface CrearCursoCrud extends CrudRepository<CursoEntidad, UUID> {
-    public Optional<CursoEntidad> buscar(UUID id);
+    boolean existsByNombre(String nombre);
 }

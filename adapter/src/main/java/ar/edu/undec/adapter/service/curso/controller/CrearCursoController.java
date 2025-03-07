@@ -1,8 +1,10 @@
 package ar.edu.undec.adapter.service.curso.controller;
 
+import ar.edu.undec.adapter.service.curso.dto.CursoDto;
 import curso.input.CrearCursoInput;
 import curso.usecase.crearcursousecase.CrearCursoRequestModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,16 +25,17 @@ public class CrearCursoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> crearCurso(@RequestBody CrearCursoRequestModel crearCursoRequestModel) {
+    public ResponseEntity<?> crearCurso(@RequestBody CursoDto cursoDto) {
         try{
-            UUID id = crearCursoInput.crearCurso(crearCursoRequestModel);
+            CrearCursoRequestModel curso = CrearCursoRequestModel.factory(cursoDto.getId(), cursoDto.getNombre(), cursoDto.getFechaCierreInscripcion(), cursoDto.getNivel());
+            UUID id = crearCursoInput.crearCurso(curso);
             if(id != null){
-                return ResponseEntity.created(null).body(id);
+                return ResponseEntity.created(null).body("El curso se ha registrado correctamente");
             }else{
-                return ResponseEntity.badRequest().build();
+                return ResponseEntity.badRequest().body(null);
             }
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("El curso ya existe");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 }

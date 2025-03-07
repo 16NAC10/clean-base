@@ -1,11 +1,11 @@
 package usecase;
 
 import curso.exception.CursoNoExisteException;
-import curso.input.BuscarCursoPorIdInput;
+import curso.input.BuscarCursoInput;
 import curso.modelo.Curso;
 import curso.modelo.CursoNivel;
-import curso.output.BuscarCursoPorIdRepository;
-import curso.usecase.BuscarCursoPorIdUseCase;
+import curso.output.BuscarCursoRepository;
+import curso.usecase.BuscarCursoUseCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,27 +20,27 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class BuscarCursoTest {
-    BuscarCursoPorIdInput buscarCursoPorIdInput;
+    BuscarCursoInput buscarCursoInput;
     private UUID cursoId = UUID.randomUUID();
 
     @Mock
-    BuscarCursoPorIdRepository buscarCursoPorIdRepository;
+    BuscarCursoRepository buscarCursoRepository;
 
     @BeforeEach
     void setUp() {
-        buscarCursoPorIdInput = new BuscarCursoPorIdUseCase(buscarCursoPorIdRepository);
+        buscarCursoInput = new BuscarCursoUseCase(buscarCursoRepository);
     }
 
     @Test
     void buscarCurso_CursoExiste_RetornarCurso(){
         Curso curso = Curso.factory(cursoId, "Programación", LocalDate.MAX, CursoNivel.MEDIO);
-        when(buscarCursoPorIdRepository.buscarCursoPorId(cursoId)).thenReturn(curso);
-        Assertions.assertEquals(curso, buscarCursoPorIdInput.buscarCursoPorId(cursoId));
+        when(buscarCursoRepository.buscarCursoPorId(cursoId)).thenReturn(curso);
+        Assertions.assertEquals(curso, buscarCursoInput.buscarCursoPorId(cursoId));
     }
 
     @Test
     void buscarCurso_CursoNoExiste_Exception(){
-        when(buscarCursoPorIdRepository.buscarCursoPorId(cursoId)).thenThrow(CursoNoExisteException.class);
-        Assertions.assertThrows(CursoNoExisteException.class, () -> buscarCursoPorIdInput.buscarCursoPorId(cursoId));
+        when(buscarCursoRepository.buscarCursoPorId(cursoId)).thenThrow(CursoNoExisteException.class);
+        Assertions.assertThrows(CursoNoExisteException.class, () -> buscarCursoInput.buscarCursoPorId(cursoId));
     }
 }

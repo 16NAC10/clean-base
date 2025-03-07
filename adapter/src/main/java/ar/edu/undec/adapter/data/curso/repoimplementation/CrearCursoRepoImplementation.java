@@ -30,7 +30,7 @@ public class CrearCursoRepoImplementation implements CrearCursoRepository {
     }
 
     @Override
-    public boolean buscarCurso(UUID id) {
-        return crearCursoCrud.buscar(id).isPresent();
+    public boolean buscarCurso(String nombre) {
+        return crearCursoCrud.existsByNombre(nombre);
     }
 }

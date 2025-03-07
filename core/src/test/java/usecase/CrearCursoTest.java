@@ -4,7 +4,7 @@ import curso.exception.CursoExisteException;
 import curso.input.CrearCursoInput;
 import curso.modelo.Curso;
 import curso.modelo.CursoNivel;
-import curso.output.BuscarCursoPorIdRepository;
+import curso.output.BuscarCursoRepository;
 import curso.output.CrearCursoRepository;
 import curso.usecase.crearcursousecase.CrearCursoRequestModel;
 import curso.usecase.crearcursousecase.CrearCursoUseCase;
@@ -30,15 +30,15 @@ public class CrearCursoTest {
     CrearCursoRepository crearCursoRepository;
 
     @Mock
-    BuscarCursoPorIdRepository buscarCursoPorIdRepository;
+    BuscarCursoRepository buscarCursoRepository;
 
     @BeforeEach
-    void setUp() {crearCursoInput = new CrearCursoUseCase(crearCursoRepository, buscarCursoPorIdRepository);}
+    void setUp() {crearCursoInput = new CrearCursoUseCase(crearCursoRepository);}
 
     @Test
     void crearCurso_CursoNoExiste_crearCurso() {
         CrearCursoRequestModel curso = CrearCursoRequestModel.factory(cursoId, "Programación", LocalDate.MAX, CursoNivel.MEDIO);
-        when(crearCursoRepository.buscarCurso(cursoId)).thenReturn(false);
+        when(crearCursoRepository.buscarCurso(curso.getNombre())).thenReturn(false);
         when(crearCursoRepository.crearCurso(any(Curso.class))).thenReturn(cursoId);
         Assertions.assertEquals(cursoId, crearCursoInput.crearCurso(curso));
     }
@@ -46,7 +46,7 @@ public class CrearCursoTest {
     @Test
     void crearCurso_CursoExiste_Exception(){
         CrearCursoRequestModel curso = CrearCursoRequestModel.factory(cursoId, "Programación", LocalDate.MAX, CursoNivel.MEDIO);
-        when(crearCursoRepository.buscarCurso(cursoId)).thenReturn(true);
+        when(crearCursoRepository.buscarCurso(curso.getNombre())).thenReturn(true);
         Assertions.assertThrows(CursoExisteException.class, () -> crearCursoInput.crearCurso(curso));
     }
 }

@@ -6,5 +6,5 @@ import java.util.UUID;
 
 public interface CrearCursoRepository {
     UUID crearCurso(Curso curso);
-    boolean buscarCurso(UUID id);
+    boolean buscarCurso(String nombre);
 }

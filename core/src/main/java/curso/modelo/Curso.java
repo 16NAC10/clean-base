@@ -19,8 +19,11 @@ public class Curso {
     }
 
     public static Curso factory(UUID id, String nombre, LocalDate fechaCierreInscripcion,CursoNivel nivel) throws CursoIncompletoException {
+        if(id == null){
+            id = UUID.randomUUID();
+        }
         if(nombre == null || nombre.isEmpty()){
-            throw new CursoIncompletoException("El nombre del curso no puede ser nulo");
+            throw new CursoIncompletoException("El nombre del curso es incorrecto");
         }
         if(fechaCierreInscripcion == null || fechaCierreInscripcion.isBefore(LocalDate.now())){
             throw new CursoIncompletoException("La fecha de cierre de inscripción del curso no es válida");
@@ -28,7 +31,6 @@ public class Curso {
         if(nivel == null){
             throw new CursoIncompletoException("El nivel del curso no puede ser nulo");
         }
-
         return new Curso(id, nombre, fechaCierreInscripcion, nivel);
     }
 

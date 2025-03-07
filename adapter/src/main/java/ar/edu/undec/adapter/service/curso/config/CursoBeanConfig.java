@@ -1,10 +1,10 @@
 package ar.edu.undec.adapter.service.curso.config;
 
-import curso.input.BuscarCursoPorIdInput;
+import curso.input.BuscarCursoInput;
 import curso.input.CrearCursoInput;
-import curso.output.BuscarCursoPorIdRepository;
+import curso.output.BuscarCursoRepository;
 import curso.output.CrearCursoRepository;
-import curso.usecase.BuscarCursoPorIdUseCase;
+import curso.usecase.BuscarCursoUseCase;
 import curso.usecase.crearcursousecase.CrearCursoUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,12 +13,12 @@ import org.springframework.context.annotation.Configuration;
 public class CursoBeanConfig {
 
     @Bean
-    public CrearCursoInput crearCursoInput(CrearCursoRepository crearCursoRepository, BuscarCursoPorIdRepository buscarCursoPorIdRepository) {
-        return new CrearCursoUseCase(crearCursoRepository, buscarCursoPorIdRepository);
+    public CrearCursoInput crearCursoInput(CrearCursoRepository crearCursoRepository) {
+        return new CrearCursoUseCase(crearCursoRepository);
     }
 
     @Bean
-    public BuscarCursoPorIdInput buscarCursoPorIdInput(BuscarCursoPorIdRepository buscarCursoPorIdRepository) {
-        return new BuscarCursoPorIdUseCase(buscarCursoPorIdRepository);
+    public BuscarCursoInput buscarCursoPorIdInput(BuscarCursoRepository buscarCursoRepository) {
+        return new BuscarCursoUseCase(buscarCursoRepository);
     }
 }
