@@ -4,7 +4,6 @@ import curso.exception.CursoExisteException;
 import curso.input.CrearCursoInput;
 import curso.modelo.Curso;
 import curso.modelo.CursoNivel;
-import curso.output.BuscarCursoPorIdRepository;
 import curso.output.CrearCursoRepository;
 import curso.usecase.crearcursousecase.CrearCursoRequestModel;
 import curso.usecase.crearcursousecase.CrearCursoUseCase;
@@ -23,30 +22,29 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class CrearCursoTest {
+
     CrearCursoInput crearCursoInput;
-    private UUID cursoId = UUID.randomUUID();
 
     @Mock
     CrearCursoRepository crearCursoRepository;
 
-    @Mock
-    BuscarCursoPorIdRepository buscarCursoPorIdRepository;
-
     @BeforeEach
-    void setUp() {crearCursoInput = new CrearCursoUseCase(crearCursoRepository, buscarCursoPorIdRepository);}
+    void setUp() {crearCursoInput = new CrearCursoUseCase(crearCursoRepository);}
+
+    UUID id = UUID.randomUUID();
 
     @Test
-    void crearCurso_CursoNoExiste_crearCurso() {
-        CrearCursoRequestModel curso = CrearCursoRequestModel.factory(cursoId, "Programación", LocalDate.MAX, CursoNivel.MEDIO);
-        when(crearCursoRepository.buscarCurso(cursoId)).thenReturn(false);
-        when(crearCursoRepository.crearCurso(any(Curso.class))).thenReturn(cursoId);
-        Assertions.assertEquals(cursoId, crearCursoInput.crearCurso(curso));
+    void crearCurso_CursoNoExiste_returnId() {
+        CrearCursoRequestModel curso = CrearCursoRequestModel.factory(id, "Programación", LocalDate.MAX, CursoNivel.MEDIO);
+        when(crearCursoRepository.buscarCurso(curso.getNombre())).thenReturn(false);
+        when(crearCursoRepository.crearCurso(any(Curso.class))).thenReturn(id);
+        Assertions.assertEquals(id, crearCursoInput.crearCurso(curso));
     }
 
     @Test
     void crearCurso_CursoExiste_Exception(){
-        CrearCursoRequestModel curso = CrearCursoRequestModel.factory(cursoId, "Programación", LocalDate.MAX, CursoNivel.MEDIO);
-        when(crearCursoRepository.buscarCurso(cursoId)).thenReturn(true);
+        CrearCursoRequestModel curso = CrearCursoRequestModel.factory(id, "Programación", LocalDate.MAX, CursoNivel.MEDIO);
+        when(crearCursoRepository.buscarCurso(curso.getNombre())).thenReturn(true);
         Assertions.assertThrows(CursoExisteException.class, () -> crearCursoInput.crearCurso(curso));
     }
 }
