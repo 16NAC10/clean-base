@@ -45,4 +45,20 @@ public class CrearCursoDataTest {
         UUID resultado = crearCursoRepoImplementation.crearCurso(curso);
         Assertions.assertNull(resultado);
     }
+
+    @Test
+    public void buscarCurso_cursoEncontrado_returnTrue() {
+        Curso curso = Curso.factory(id, "Programación", LocalDate.MAX, CursoNivel.MEDIO);
+        when(crearCursoCrud.existsByNombre(any(String.class))).thenReturn(true);
+        Boolean resultado = crearCursoRepoImplementation.buscarCurso(curso.getNombre());
+        Assertions.assertTrue(resultado);
+    }
+
+    @Test
+    public void buscarCurso_cursoNoEncontrado_returnFalse() {
+        Curso curso = Curso.factory(id, "Programación", LocalDate.MAX, CursoNivel.MEDIO);
+        when(crearCursoCrud.existsByNombre(any(String.class))).thenReturn(false);
+        Boolean resultado = crearCursoRepoImplementation.buscarCurso(curso.getNombre());
+        Assertions.assertFalse(resultado);
+    }
 }

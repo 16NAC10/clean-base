@@ -1,6 +1,6 @@
 package ar.edu.undec.adapter.data.curso;
 
-import ar.edu.undec.adapter.data.curso.crud.BuscarCursoPorIdCrud;
+import ar.edu.undec.adapter.data.curso.crud.BuscarCursoCrud;
 import ar.edu.undec.adapter.data.curso.mapper.CursoMapper;
 import ar.edu.undec.adapter.data.curso.model.CursoEntidad;
 import ar.edu.undec.adapter.data.curso.repoimplementation.BuscarCursoRepoImplementation;
@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,20 +26,62 @@ import static org.mockito.Mockito.when;
 public class BuscarCursoDataTest {
 
     @Mock
-    BuscarCursoPorIdCrud buscarCursoPorIdCrud;
+    BuscarCursoCrud buscarCursoCrud;
 
     @InjectMocks
-    BuscarCursoRepoImplementation buscarCursoPorIdRepoImplementation;
+    BuscarCursoRepoImplementation buscarCursoRepoImplementation;
 
     @Test
-    public void buscarCurso_cursoExiste_returnCurso() {
+    public void buscarCursoPorId_cursoExiste_returnCurso() {
         UUID id = UUID.randomUUID();
         CursoEntidad curso = new CursoEntidad(id, "Programación", LocalDate.MAX, CursoNivel.MEDIO);
-        when(buscarCursoPorIdCrud.findById(any(UUID.class))).thenReturn(Optional.of(curso));
-        Curso cursoResultado = buscarCursoPorIdRepoImplementation.buscarCursoPorId(id);
-        CursoMapper.coreDataMapper(cursoResultado);
-        Assertions.assertEquals(curso.getNombre(), cursoResultado.getNombre());
-        Assertions.assertEquals(curso.getFechaCierreInscripcion(), cursoResultado.getFechaCierreInscripcion());
-        Assertions.assertEquals(curso.getNivel(), cursoResultado.getNivel());
+        when(buscarCursoCrud.findById(any(UUID.class))).thenReturn(Optional.of(curso));
+        CursoEntidad cursoResultado = CursoMapper.coreDataMapper(buscarCursoRepoImplementation.buscarCursoPorId(id));
+        Assertions.assertEquals(curso, cursoResultado);
+    }
+
+    @Test
+    public void buscarCursoPorId_cursoNoExiste_returnNull() {
+        UUID id = UUID.randomUUID();
+        when(buscarCursoCrud.findById(any(UUID.class))).thenReturn(Optional.empty());
+        Curso curso = buscarCursoRepoImplementation.buscarCursoPorId(id);
+        Assertions.assertNull(curso);
+    }
+
+    @Test
+    public void buscarCursoPorNombre_cursoExiste_returnCurso() {
+        UUID id = UUID.randomUUID();
+        CursoEntidad curso = new CursoEntidad(id, "Programación", LocalDate.MAX, CursoNivel.MEDIO);
+        when(buscarCursoCrud.findByNombre(any(String.class))).thenReturn(Optional.of(curso));
+        CursoEntidad cursoResultado = CursoMapper.coreDataMapper(buscarCursoRepoImplementation.buscarCursoPorNombre(curso.getNombre()));
+        Assertions.assertEquals(curso, cursoResultado);
+    }
+
+    @Test
+    public void buscarCursoPorNombre_cursoNoExiste_returnNull() {
+        UUID id = UUID.randomUUID();
+        CursoEntidad cursoEntidad = new CursoEntidad(id, "Programación", LocalDate.MAX, CursoNivel.MEDIO);
+        when(buscarCursoCrud.findByNombre(any(String.class))).thenReturn(Optional.empty());
+        Curso curso = buscarCursoRepoImplementation.buscarCursoPorNombre(cursoEntidad.getNombre());
+        Assertions.assertNull(curso);
+    }
+
+    @Test
+    public void buscarCursos_cursoExiste_returnCursoList() {
+        CursoEntidad curso1 = new CursoEntidad(UUID.randomUUID(), "Programación", LocalDate.MAX, CursoNivel.MEDIO);
+        CursoEntidad curso2 = new CursoEntidad(UUID.randomUUID(), "Matemática", LocalDate.MAX, CursoNivel.INICIAL);
+        when(buscarCursoCrud.findAll()).thenReturn(Arrays.asList(curso1, curso2));
+        List<Curso> cursos = buscarCursoRepoImplementation.buscarCursos();
+        Assertions.assertNotNull(cursos);
+        Assertions.assertEquals(2, cursos.size());
+        Assertions.assertEquals(curso1.getNombre(), cursos.get(0).getNombre());
+        Assertions.assertEquals(curso2.getNombre(), cursos.get(1).getNombre());
+    }
+
+    @Test
+    public void buscarCursos_cursoNoExiste_returnNull() {
+        when(buscarCursoCrud.findAll()).thenReturn(Arrays.asList());
+        List<Curso> cursos = buscarCursoRepoImplementation.buscarCursos();
+        Assertions.assertTrue(cursos.isEmpty());
     }
 }

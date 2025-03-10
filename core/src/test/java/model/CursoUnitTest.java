@@ -20,8 +20,8 @@ public class CursoUnitTest {
     public void instanciar_faltaNombre_CursoIncompletoExcepcion() {
         Exception exceptionVacio = Assertions.assertThrows(CursoIncompletoException.class, () -> Curso.factory(UUID.randomUUID(), "", LocalDate.MAX, CursoNivel.MEDIO));
         Exception exceptionNulo = Assertions.assertThrows(CursoIncompletoException.class, () -> Curso.factory(UUID.randomUUID(), null, LocalDate.MAX, CursoNivel.MEDIO));
-        Assertions.assertEquals("El nombre del curso no puede ser nulo", exceptionVacio.getMessage());
-        Assertions.assertEquals("El nombre del curso no puede ser nulo", exceptionNulo.getMessage());
+        Assertions.assertEquals("El nombre del curso es incorrecto", exceptionVacio.getMessage());
+        Assertions.assertEquals("El nombre del curso es incorrecto", exceptionNulo.getMessage());
     }
 
     @Test

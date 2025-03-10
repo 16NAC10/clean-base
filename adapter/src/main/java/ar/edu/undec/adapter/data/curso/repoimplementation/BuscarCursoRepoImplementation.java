@@ -1,6 +1,6 @@
 package ar.edu.undec.adapter.data.curso.repoimplementation;
 
-import ar.edu.undec.adapter.data.curso.crud.BuscarCursoPorIdCrud;
+import ar.edu.undec.adapter.data.curso.crud.BuscarCursoCrud;
 import ar.edu.undec.adapter.data.curso.mapper.CursoMapper;
 import ar.edu.undec.adapter.data.curso.model.CursoEntidad;
 import curso.modelo.Curso;
@@ -14,16 +14,16 @@ import java.util.UUID;
 
 @Service
 public class BuscarCursoRepoImplementation implements BuscarCursoRepository {
-    BuscarCursoPorIdCrud buscarCursoPorIdCrud;
+    BuscarCursoCrud buscarCursoCrud;
 
     @Autowired
-    public BuscarCursoRepoImplementation(BuscarCursoPorIdCrud buscarCursoPorIdCrud) {
-        this.buscarCursoPorIdCrud = buscarCursoPorIdCrud;
+    public BuscarCursoRepoImplementation(BuscarCursoCrud buscarCursoCrud) {
+        this.buscarCursoCrud = buscarCursoCrud;
     }
 
     @Override
     public Curso buscarCursoPorId(UUID id) {
-        CursoEntidad cursoEntidad = buscarCursoPorIdCrud.findById(id).orElse(null);
+        CursoEntidad cursoEntidad = buscarCursoCrud.findById(id).orElse(null);
         if (cursoEntidad == null) {
             return null;
         } else {
@@ -33,7 +33,7 @@ public class BuscarCursoRepoImplementation implements BuscarCursoRepository {
 
     @Override
     public Curso buscarCursoPorNombre(String nombre) {
-        CursoEntidad cursoEntidad = buscarCursoPorIdCrud.findByNombre(nombre).orElse(null);
+        CursoEntidad cursoEntidad = buscarCursoCrud.findByNombre(nombre).orElse(null);
         if (cursoEntidad == null) {
             return null;
         } else {
@@ -43,7 +43,7 @@ public class BuscarCursoRepoImplementation implements BuscarCursoRepository {
 
     @Override
     public List<Curso> buscarCursos() {
-        List<CursoEntidad> cursosData = buscarCursoPorIdCrud.findAll();
+        List<CursoEntidad> cursosData = buscarCursoCrud.findAll();
         List<Curso> cursos = new ArrayList<>();
         for (CursoEntidad cursoEntidad : cursosData) {
             cursos.add(CursoMapper.dataCoreMapper(cursoEntidad));

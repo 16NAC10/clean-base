@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface BuscarCursoPorIdCrud extends CrudRepository<CursoEntidad, UUID> {
+public interface BuscarCursoCrud extends CrudRepository<CursoEntidad, UUID> {
     Optional<CursoEntidad> findById(UUID id);
     Optional<CursoEntidad> findByNombre(String nombre);
     List<CursoEntidad> findAll();
